@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Page Set -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Mobile Set -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Pls gimme images</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+</head>
+
+<body>
+  <!-- Header should go here -->
+  <h1>Pls gimme images</h1>
+
+  <!-- Form should go here -->
+  <!-- https://designsystem.digital.gov/components/form-templates/ -->
+  <form class="usa-form" method="post" onSubmit="deploy(); return false;">
+    <!-- Name -->
+    <fieldset class="usa-fieldset">
+      <label class="usa-label" for="text_book">Enter text here:</label>
+      <input class="usa-input" id="text_book" name="text_book" type="text" required aria-required="true">
+    </fieldset>
+    <button class="usa-button" type="submit">Submit</button>
+  </form>
+</body>
+
+</html>
