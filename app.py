@@ -4,6 +4,7 @@ app = Flask(__name__)
 
 API_KEY = '20169026-d45bc99749bd521df7aa7b5f4'
 CONTEXT = {"photos": {}}
+# TODO: clear context when done with query
 @app.route('/', methods=["GET", "POST"])
 def print_form():
     global CONTEXT
@@ -24,6 +25,7 @@ def print_form():
             if response.status_code == 200:
                 print("Success!")
             # add word, link pair to dictionary for new HTML rendering
+            # TODO: check that response has hits
             img_link = response.json()["hits"][0]["webformatURL"]
             print("img_link: " + img_link)
             CONTEXT["photos"][word] = img_link
