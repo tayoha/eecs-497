@@ -14,9 +14,11 @@
         <script type="text/javascript" src="js/main.js"></script>
     </head>
     <body>
-        {% for key, value in photos.items() %}
-            <h1>{{key}}</h1>
-            <img src = {{ value }}/>
+        {% for word in words %}
+            {% if word in photos %}
+                <h1>{{word}}</h1>
+                <img src = {{ photos[word] }}/>
+            {% endif %}
         {% endfor %}
     </body>
 
