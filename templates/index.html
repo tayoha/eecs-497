@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+
+  <link rel="stylesheet" href="{{url_for('static', filename='mystyle.css')}}">
   <!-- Page Set -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -11,22 +13,25 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Pls gimme images</title>
+  <title>Easy Book Reader</title>
+  <link rel="shortcut icon" type="image/jpg" href="{{url_for('static', filename='book.png')}}"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
+
 </head>
 
 <body>
   <!-- Header should go here -->
-  <h1>Pls gimme images</h1>
+  <h1 class = "center">Welcome to the Easy Book Reader!</h1>
+  <h2 class = "center">Enter your text/book below to generate images for it.</h2>
 
   <!-- Form should go here -->
   <!-- https://designsystem.digital.gov/components/form-templates/ -->
-  <form class="usa-form" method="post" onSubmit="deploy(); return false;">
+  <form class="usa-form center" method="post" onSubmit="deploy(); return false;">
     <!-- Name -->
     <fieldset class="usa-fieldset">
-      <label class="usa-label" for="text_book">Enter text here:</label>
-      <input class="usa-input" id="text_book" name="text_book" type="text" required aria-required="true">
+      <label class="usa-label" for="text_book"></label>
+      <textarea class="usa-input" id="text_book" name="text_book" type="text" rows ="10" cols = "90" required aria-required="true" placeholder = "Paste Your Text Here"></textarea>
     </fieldset>
     <button class="usa-button" type="submit">Submit</button>
   </form>
