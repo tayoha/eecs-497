@@ -1,6 +1,7 @@
 const deploy = async () => {
     // get form values
     const text_book = document.getElementById('text_book').value;
+    const slider_val = document.getElementById('myRange').value;
     console.log(text_book);
     // store voter information in local database
     fetch("/", {
@@ -10,7 +11,8 @@ const deploy = async () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          "text_book": text_book
+          "text_book": text_book,
+          "slider_val": slider_val
         }),
       })
         .then((response) => {

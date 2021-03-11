@@ -14,11 +14,9 @@
         <script type="text/javascript" src="js/main.js"></script>
     </head>
     <body>
-        {% for word in words %}
-            {% if word in photos %}
-                <h1>{{word}}</h1>
-                <img src = {{ photos[word] }}/>
-            {% endif %}
+        {% for section, img_link in photos.items() %}
+            <h1>{{section}}</h1>
+            <img src = {{ img_link }}/>
         {% endfor %}
     </body>
 
