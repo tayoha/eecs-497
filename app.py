@@ -24,11 +24,10 @@ def print_form():
         text_book_sentences = text_book.split('.')
         text_book_sentences = text_book_sentences[:-1] # get rid of last empty string (after last sentence)
         num_sentences = len(text_book_sentences)
-        section_size = num_sentences // slider_val # has to be an integer
         text_book_sections = []
-        for idx in range(0, num_sentences, section_size):
-            if idx + section_size < num_sentences:
-                text_book_sections.append(". ".join(text_book_sentences[idx:(idx + section_size)]))
+        for idx in range(0, num_sentences, slider_val):
+            if idx + slider_val < num_sentences:
+                text_book_sections.append(". ".join(text_book_sentences[idx:(idx + slider_val)]))
             else:
                 text_book_sections.append(". ".join(text_book_sentences[idx:]))
         # use first word of each section to search
