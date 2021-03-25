@@ -1,13 +1,25 @@
 import requests
+import json
 from flask import Flask, jsonify, request, render_template, send_from_directory, url_for, redirect
+from serpapi import GoogleSearch
+
+"""
+params = {
+  "q": "Apple",
+  "tbm": "isch",
+  "ijn": "0",
+  "api_key": "secret_api_key"
+}
+
+search = GoogleSearch(params)
+results = search.get_dict()
+images_results = results['images_results']
+"""
 app = Flask(__name__)
 
 API_KEY = '20169026-d45bc99749bd521df7aa7b5f4'
 CONTEXT = {"photos": {}}
 
-"""test input:
-hello there. pictures are a good way to do stuff. baseball is cool. dogs are cute. cats are found in the park at night. soccer is a sport for nerds. potato is my nickname. michigan is where i go to school. school sucks. coding is fun sometimes. stupid is this. yoda talks like this. star wars is a series that i'm watching. basketball is also cool. sports are fun in general. poker is a fun game where people cry. crying is sad. money is nice. trees are green. fans only. shit is what i'm saying dawg. amigo.
-"""
 
 @app.route('/', methods=["GET", "POST"])
 def print_form():
@@ -30,24 +42,47 @@ def print_form():
                 text_book_sections.append(". ".join(text_book_sentences[idx:(idx + slider_val)]))
             else:
                 text_book_sections.append(". ".join(text_book_sentences[idx:]))
-        # use first word of each section to search
-        text_book_words = []
+        # summarize each sentence
+        url = "https://textanalysis-text-summarization.p.rapidapi.com/text-summarizer"
+        summaries = []
         for section in text_book_sections:
-            word = section.split()[0]
-            text_book_words.append(word)
+            payload = {
+                "url": "",
+                "text": section,
+                "sentnum": 1
+            }
+            headers = {
+                'content-type': "application/json",
+                'x-rapidapi-key': "3370a90c6bmsh4469eda97977206p1dbffdjsne99d3fc5a7b0",
+                'x-rapidapi-host': "textanalysis-text-summarization.p.rapidapi.com"
+            }
+            summary = json.loads(requests.request("POST", url, data=json.dumps(payload), headers=headers).text)
+            summaries.append(summary["sentences"][0])
+            print(summary["sentences"])
         # perform image api search
-        for idx, word in enumerate(text_book_words):
+        for idx, summary in enumerate(summaries):
             # make call to image API
-            url = "https://pixabay.com/api/?key="+API_KEY+"&q="+word
-            response = requests.get(url)
+            #url = "https://pixabay.com/api/?key="+API_KEY+"&q="+summary
+            params = {
+                "q": summary,
+                "tbm": "isch",
+                "ijn": "0",
+                "api_key": "secret_api_key"
+            }
+            search = GoogleSearch(params)
+            results = search.get_dict()
+            images_results = results['images_results']
+            print(images_results)
+            # TODO: inspect response and create CONTEXT
+            """response = requests.get(url)
             # print(response.json())
             if response.status_code == 200:
                 print("Success!")
-            # add word, link pair to dictionary for new HTML rendering
+            # add summary, link pair to dictionary for new HTML rendering
             if response.json()["hits"]:
                 img_link = response.json()["hits"][0]["webformatURL"]
                 print("img_link: " + img_link)
-                CONTEXT["photos"][text_book_sections[idx]] = img_link
+                CONTEXT["photos"][summaries[idx]] = img_link"""
         return redirect(url_for('view_results'))
 
 @app.route('/view_results', methods=["GET"])
