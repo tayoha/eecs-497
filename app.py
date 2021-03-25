@@ -3,6 +3,10 @@ import json
 from flask import Flask, jsonify, request, render_template, send_from_directory, url_for, redirect
 from serpapi import GoogleSearch
 
+"""test input:
+hello there. pictures are a good way to do stuff. baseball is cool. dogs are cute. cats are found in the park at night. soccer is a sport for nerds. potato is my nickname. michigan is where i go to school. school sucks. coding is fun sometimes. stupid is this. yoda talks like this. star wars is a series that i'm watching. basketball is also cool. sports are fun in general. poker is a fun game where people cry. crying is sad. money is nice. trees are green. fans only. shit is what i'm saying dawg. amigo.
+"""
+
 """
 params = {
   "q": "Apple",
@@ -59,11 +63,17 @@ def print_form():
             summary = json.loads(requests.request("POST", url, data=json.dumps(payload), headers=headers).text)
             summaries.append(summary["sentences"][0])
             print(summary["sentences"])
+        # take first word of each summary to perform image lookup
+        # TODO: delete this (want to look up entire summary)
+        text_book_words = []
+        for summary in summaries:
+            text_book_words.append(summary.split()[0])
         # perform image api search
-        for idx, summary in enumerate(summaries):
+        # TODO: change word to summary
+        for idx, word in enumerate(text_book_words):
             # make call to image API
-            #url = "https://pixabay.com/api/?key="+API_KEY+"&q="+summary
-            params = {
+            url = "https://pixabay.com/api/?key="+API_KEY+"&q="+word
+            """params = {
                 "q": summary,
                 "tbm": "isch",
                 "ijn": "0",
@@ -72,9 +82,9 @@ def print_form():
             search = GoogleSearch(params)
             results = search.get_dict()
             images_results = results['images_results']
-            print(images_results)
+            print(images_results)"""
             # TODO: inspect response and create CONTEXT
-            """response = requests.get(url)
+            response = requests.get(url)
             # print(response.json())
             if response.status_code == 200:
                 print("Success!")
@@ -82,7 +92,7 @@ def print_form():
             if response.json()["hits"]:
                 img_link = response.json()["hits"][0]["webformatURL"]
                 print("img_link: " + img_link)
-                CONTEXT["photos"][summaries[idx]] = img_link"""
+                CONTEXT["photos"][text_book_words[idx]] = img_link
         return redirect(url_for('view_results'))
 
 @app.route('/view_results', methods=["GET"])
