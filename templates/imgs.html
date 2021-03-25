@@ -1,5 +1,6 @@
 <html>
     <head>
+        <link rel="stylesheet" href="{{url_for('static', filename='mystyle.css')}}">
         <!-- Page Set -->
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -14,10 +15,17 @@
         <script type="text/javascript" src="js/main.js"></script>
     </head>
     <body>
+        <div class="center">
+
+        <h1> Thanks for using Easy Book Reader! <br>
+                See your book below with pictures to help you read <br>
+                Happy Reading! <br> </h1>
+
         {% for section, img_link in photos.items() %}
-            <h1>{{section}}</h1>
-            <img src = {{ img_link }}/>
+            <h2 >{{section}}</h2>
+            <img src = {{ img_link }} width="300"/>
         {% endfor %}
+        </div>
     </body>
 
 </html>
