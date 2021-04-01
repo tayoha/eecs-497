@@ -22,6 +22,7 @@ images_results = results['images_results']
 app = Flask(__name__)
 
 API_KEY = '20169026-d45bc99749bd521df7aa7b5f4'
+NEW_API_KEY = "4873593d8fb2fc91b053c8d46b51be41bc4ceca1133dcb099329de31ddb561e7"
 CONTEXT = {"photos": {}}
 
 
@@ -63,36 +64,22 @@ def print_form():
             summary = json.loads(requests.request("POST", url, data=json.dumps(payload), headers=headers).text)
             summaries.append(summary["sentences"][0])
             print(summary["sentences"])
-        # take first word of each summary to perform image lookup
-        # TODO: delete this (want to look up entire summary)
-        text_book_words = []
-        for summary in summaries:
-            text_book_words.append(summary.split()[0])
-        # perform image api search
-        # TODO: change word to summary
-        for idx, word in enumerate(text_book_words):
+        # perform image lookup
+        for idx, summary in enumerate(summaries):
             # make call to image API
-            url = "https://pixabay.com/api/?key="+API_KEY+"&q="+word
-            """params = {
+            params = {
                 "q": summary,
                 "tbm": "isch",
                 "ijn": "0",
-                "api_key": "secret_api_key"
+                "api_key": NEW_API_KEY
             }
             search = GoogleSearch(params)
             results = search.get_dict()
             images_results = results['images_results']
-            print(images_results)"""
-            # TODO: inspect response and create CONTEXT
-            response = requests.get(url)
-            # print(response.json())
-            if response.status_code == 200:
-                print("Success!")
-            # add summary, link pair to dictionary for new HTML rendering
-            if response.json()["hits"]:
-                img_link = response.json()["hits"][0]["webformatURL"]
-                print("img_link: " + img_link)
-                CONTEXT["photos"][text_book_words[idx]] = img_link
+            if images_results and ("original" in images_results[0]):
+                link = images_results[0]["original"]
+                print(link)
+                CONTEXT["photos"][summaries[idx]] = link
         return redirect(url_for('view_results'))
 
 @app.route('/view_results', methods=["GET"])
