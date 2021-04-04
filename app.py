@@ -79,7 +79,7 @@ def print_form():
             if images_results and ("original" in images_results[0]):
                 link = images_results[0]["original"]
                 print(link)
-                CONTEXT["photos"][summaries[idx]] = link
+                CONTEXT["photos"][text_book_sections[idx]] = link
         return redirect(url_for('view_results'))
 
 @app.route('/view_results', methods=["GET"])
